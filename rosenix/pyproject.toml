@@ -1,0 +1,84 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rosenix"
+dynamic = ["version"]
+description = "A modular, explicit, non-magical framework for building AI-powered software systems."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "Rosenix Contributors" }]
+keywords = ["ai", "agents", "llm", "framework", "async", "dependency-injection", "workflow"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Application Frameworks",
+    "Typing :: Typed",
+]
+dependencies = [
+    "pydantic>=2.6",
+    "typing-extensions>=4.10",
+]
+
+[project.urls]
+Homepage = "https://github.com/rosenix-project/rosenix"
+Repository = "https://github.com/rosenix-project/rosenix"
+Issues = "https://github.com/rosenix-project/rosenix/issues"
+Changelog = "https://github.com/rosenix-project/rosenix/blob/main/CHANGELOG.md"
+
+[project.optional-dependencies]
+openai = ["openai>=1.30"]
+otel = ["opentelemetry-api>=1.24", "opentelemetry-sdk>=1.24"]
+dev = [
+    "pytest>=8.0",
+    "pytest-asyncio>=0.23",
+    "pytest-cov>=5.0",
+    "mypy>=1.10",
+    "ruff>=0.4",
+    "build>=1.2",
+    "twine>=5.0",
+]
+
+# Entry-point group third parties use to register providers automatically.
+# e.g. a pip-installed plugin package can declare:
+#   [project.entry-points."rosenix.providers"]
+#   myllm = "myllm_plugin:MyLLMProvider"
+[project.entry-points."rosenix.providers"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+rosenix = ["py.typed"]
+
+[tool.setuptools.dynamic]
+version = { attr = "rosenix.__version__" }
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+
+[tool.mypy]
+python_version = "3.11"
+warn_unused_ignores = true
+show_error_codes = true
+
+[tool.ruff]
+target-version = "py311"
+line-length = 110
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "PYI"]
+
+[tool.coverage.run]
+source = ["rosenix"]
+
+[tool.coverage.report]
+show_missing = true
